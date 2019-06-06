@@ -31,12 +31,14 @@ class MessageList extends Component {
   }
 
   createMsg(event) {
+    event.preventDefault();
     this.msgRef.push({
-    username: "<USERNAME HERE>",
-    content: this.state.message,
-    sentAt: firebase.database.ServerValue.TIMESTAMP,
-    roomId: this.props.activeRoom.key
+      username: this.props.user.displayName,
+      content: this.state.message,
+      sentAt: firebase.database.ServerValue.TIMESTAMP,
+      roomId: this.props.activeRoom.key
     })
+    return this.setState({ message: '' });
   }
 
   getFilteredMessages() {
@@ -47,20 +49,29 @@ class MessageList extends Component {
 
   render() {
     return (
+
       <div>
-        {
-          this.getFilteredMessages().map((message, roomId) => (
-              <li key={roomId}>{message.content}</li>
-            )
-          )
-        }
+        <h1>Bloc Chats</h1>
+        <h2>{this.props.activeRoom.name || 'Select Room'}</h2>
         <form>
-          <h3>Message</h3>
+          <h3>Messages</h3>
+            {
+              this.getFilteredMessages().map((message, roomId) => (
+                <div>
+                  <li key={roomId}>{message.username} says:</li>
+                  <p>{message.content}</p>
+                </div>
+
+                )
+              )
+            }
             <input type='text' value={this.state.message} onChange={this.handleChange} />
             <button type='submit' onClick={(e) => this.createMsg(e)}>
               Send
             </button>
         </form>
+        <div>
+      </div>
       </div>
 
 
