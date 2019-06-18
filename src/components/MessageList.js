@@ -56,19 +56,19 @@ class MessageList extends Component {
         <form>
           <h3>Messages</h3>
             {
-              this.getFilteredMessages().map((message, roomId) => (
-                <div>
-                  <li key={roomId}>{message.username} says:</li>
+              this.getFilteredMessages().map((message, i) => (
+                <div key={i}>
+                  <li>{message.username} says:</li>
                   <p>{message.content}</p>
                 </div>
 
                 )
               )
             }
-            <input type='text' value={this.state.message} onChange={this.handleChange} />
+            {this.props.user && this.props.activeRoom!='' ? (<><input type='text' value={this.state.message} onChange={this.handleChange} />
             <button type='submit' onClick={(e) => this.createMsg(e)}>
               Send
-            </button>
+            </button></>) : ''}
         </form>
         <div>
       </div>
